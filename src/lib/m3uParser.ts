@@ -29,6 +29,17 @@ function cleanChannelName(name: string): string {
     .trim();
 }
 
+function normalizeLogoUrl(logo: string): string | undefined {
+  if (!logo) return undefined;
+
+  try {
+    const parsed = new URL(logo);
+    return parsed.protocol === 'http:' || parsed.protocol === 'https:' ? parsed.toString() : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 function inferCountryCode(tvgId: string, explicitCountry: string): string {
   if (explicitCountry) {
     return explicitCountry.toUpperCase();
@@ -92,7 +103,7 @@ export function parseM3UContent(content: string): Channel[] {
         const listedQuality = extractListedQuality(name || '');
         const cleanName = cleanChannelName(name || 'Unknown Channel');
         
-        const logo = extractAttribute(line, 'tvg-logo');
+        const logo = normalizeLogoUrl(extractAttribute(line, 'tvg-logo'));
         const country = extractAttribute(line, 'tvg-country');
         const countryCode = inferCountryCode(tvgId, country);
         const language = extractAttribute(line, 'tvg-language');

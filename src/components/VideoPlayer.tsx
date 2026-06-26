@@ -337,7 +337,8 @@ export default function VideoPlayer({
     let hls: Hls | null = null;
     let retryCount = 0;
     let mediaRecoverCount = 0;
-    let triedDirectFallback = false;
+    let triedProxyFallback = false;
+    let shouldProxyHlsRequests = false;
     let loadTimeoutId: number | undefined;
 
     const clearLoadTimeout = () => {
@@ -384,9 +385,9 @@ export default function VideoPlayer({
       }
     };
     const handleFallbackError = () => {
-      if (!triedDirectFallback && isLocalProxyUrl(video.src)) {
-        triedDirectFallback = true;
-        video.src = url;
+      if (!triedProxyFallback && !isLocalProxyUrl(video.src)) {
+        triedProxyFallback = true;
+        video.src = toProxyUrl(url);
         setIsLoading(true);
         startLoadTimeout();
         video.load();
@@ -413,7 +414,7 @@ export default function VideoPlayer({
           super(config);
           const load = this.load.bind(this);
           this.load = (context: any, config: any, callbacks: any) => {
-            if (context.url) {
+            if (shouldProxyHlsRequests && context.url) {
               context.url = toProxyUrl(context.url);
             }
             load(context, config, callbacks);
@@ -438,12 +439,13 @@ export default function VideoPlayer({
       });
       hlsRef.current = hls;
 
-      const loadViaProxy = (targetUrl: string) => {
-        hls?.loadSource(toProxyUrl(targetUrl));
+      const loadStream = (targetUrl: string, useProxy: boolean) => {
+        shouldProxyHlsRequests = useProxy;
+        hls?.loadSource(useProxy ? toProxyUrl(targetUrl) : targetUrl);
         hls?.attachMedia(video);
       };
 
-      loadViaProxy(url);
+      loadStream(url, isLocalProxyUrl(url));
 
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
         const options = hls ? buildQualityOptions(hls.levels) : [];
@@ -468,6 +470,16 @@ export default function VideoPlayer({
         if (data.fatal) {
           switch (data.type) {
             case Hls.ErrorTypes.NETWORK_ERROR:
+              if (!triedProxyFallback && !shouldProxyHlsRequests && !isLocalProxyUrl(url)) {
+                triedProxyFallback = true;
+                retryCount = 0;
+                setIsLoading(true);
+                startLoadTimeout();
+                console.warn('Direct HLS load failed, retrying through proxy', data);
+                loadStream(url, true);
+                return;
+              }
+
               if (retryCount < 2) {
                 retryCount += 1;
                 console.warn('Fatal network error encountered, retrying stream load', data);
@@ -500,11 +512,11 @@ export default function VideoPlayer({
       });
     } else if (isHlsUrl(url) && video.canPlayType('application/vnd.apple.mpegurl')) {
       // Native HLS support (Safari / iOS)
-      video.src = toProxyUrl(url);
+      video.src = url;
       video.addEventListener('error', handleFallbackError);
     } else {
       // Fallback for non-m3u8 streams or mp4s
-      video.src = toProxyUrl(url);
+      video.src = url;
       video.addEventListener('error', handleFallbackError);
     }
 

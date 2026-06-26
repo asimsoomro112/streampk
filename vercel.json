@@ -9,10 +9,6 @@
   },
   "rewrites": [
     {
-      "source": "/api/live/ary-news.m3u8",
-      "destination": "/api/live/ary-news"
-    },
-    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
