@@ -1,6 +1,6 @@
-# StreamPK
+# StreamPk
 
-StreamPK is a React/Vite IPTV web app with a local Express proxy for HLS streams. It is tuned for desktop browsers and Android TV boxes with remote-friendly focus controls.
+StreamPk is a React/Vite IPTV web app with a local Express proxy for HLS streams. It is tuned for desktop browsers and Android TV boxes with remote-friendly focus controls.
 
 ## Requirements
 

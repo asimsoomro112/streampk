@@ -75,14 +75,14 @@ export default function Layout() {
         <header className="md:hidden flex items-center justify-between p-4 bg-[#0A0A0A] sticky top-0 z-10 border-b border-white/5">
           <div className="flex items-center gap-2 text-[#00D2FF]">
             <Tv className="w-6 h-6" />
-            <h1 className="text-xl font-bold tracking-tighter">Stream<span className="text-white">PK</span></h1>
+            <h1 className="text-xl font-bold tracking-tighter">Stream<span className="text-white">Pk</span></h1>
           </div>
         </header>
 
         {/* Global Desktop Header (optional, adds top spacing) */}
         <header className="hidden md:flex h-20 px-10 items-center justify-between shrink-0">
           <div className="flex items-center space-x-4">
-            <h1 className="text-3xl font-bold tracking-tighter">Stream<span className="text-[#00D2FF]">PK</span></h1>
+            <h1 className="text-3xl font-bold tracking-tighter">Stream<span className="text-[#00D2FF]">Pk</span></h1>
             <span className="px-2 py-0.5 bg-red-600 text-[10px] font-black rounded uppercase tracking-wider">Live</span>
           </div>
           <div className="flex items-center space-x-6">

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="StreamPk">
+  <rect width="64" height="64" rx="14" fill="#050505"/>
+  <path d="M14 21.5C14 16.8 17.8 13 22.5 13h19C46.2 13 50 16.8 50 21.5v21C50 47.2 46.2 51 41.5 51h-19C17.8 51 14 47.2 14 42.5v-21Z" fill="#08131A" stroke="#00D2FF" stroke-width="3"/>
+  <path d="M27 24.5v15l13-7.5-13-7.5Z" fill="#00D2FF"/>
+  <path d="M19 18.5h26" stroke="#7C5CFF" stroke-width="3" stroke-linecap="round"/>
+  <path d="M20 46h24" stroke="#FFFFFF" stroke-opacity=".82" stroke-width="3" stroke-linecap="round"/>
+</svg>

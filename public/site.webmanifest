@@ -1,0 +1,17 @@
+{
+  "name": "StreamPk",
+  "short_name": "StreamPk",
+  "description": "Verified live TV channels with a clean, TV-friendly player.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "64x64 192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
