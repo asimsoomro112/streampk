@@ -1,0 +1,6 @@
+{
+  "name": "StreamPK",
+  "description": "Live IPTV player with HLS proxy and TV-friendly controls.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
